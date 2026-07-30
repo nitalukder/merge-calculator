@@ -6,12 +6,27 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ---
 
+## [1.3.1] - 2026-07-31
+
+### ✨ Improved
+* **UI Layout Restructuring:** Relocated the validation error alert box from above the inputs to **below the input fields**, ensuring a cleaner and more natural layout flow.
+
+---
+
+## [1.3.0] - 2026-07-31
+
+### ✨ Improved
+* **Smart Error Timing & UX:** Introduced a `touched` state tracking system. Error alerts no longer pop up prematurely while typing or backspacing intermediate values, eliminating abrupt UI layout jumps.
+* **Smooth Transitions:** Added Alpine.js enter/leave transitions to the validation error banner for smooth visual feedback.
+
+---
+
 ## [1.2.0] - 2026-07-31
 
 ### ✨ Added
-* **Light / Dark Mode Switcher:** Dynamic theme toggle button in the header.
+* **Light / Dark Mode Switcher:** Dynamic theme toggle button in the header with correct icon rendering (`x-show`).
 * **Theme Persistence:** Stores selected theme preferences in `localStorage`.
-* **Light Theme UI:** Custom light palette with clear text contrast, borders, and card elevations.
+* **Light Theme UI:** Custom light palette with clear text contrast, soft shadows, and clean borders.
 
 ---
 
@@ -20,16 +35,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### ✨ Added
 * **Two-Column Responsive Grid Layout:** Desktop view split into input and output columns to prevent vertical scrolling.
 * **Interactive Stepper Buttons:** Integrated `-` and `+` buttons alongside input fields for faster value adjustments.
-* **Smart Auto-Sync Watchers:** Implemented Alpine.js `$watch` handlers for real-time reactive clamping:
-  * Automatically pushes $t$ to $s + 1$ if $s \ge t$.
-  * Automatically pulls $s$ to $t - 1$ if $t \le s$.
-* **Input Bounds Protection:** Added upper threshold ($q \le 1,000,000$) to prevent JavaScript integer overflow ($MAX\_SAFE\_INTEGER$).
-* **Mobile UX Enhancements:** Added `inputmode="numeric"` and accessible `aria-label` attributes to stepper buttons.
-
-### 🛠️ Changed
-* Updated UI framework implementation to **Tailwind CSS v4** engine.
-* Set default requested quantity $q$ to `1`.
-* Enhanced error handling with auto-adjustments instead of passive alert banners.
+* **Smart Auto-Sync Watchers:** Implemented Alpine.js `$watch` handlers for real-time reactive clamping.
+* **Input Bounds Protection:** Added upper threshold ($q \le 1,000,000$) to prevent JavaScript integer overflow.
 
 ---
 
