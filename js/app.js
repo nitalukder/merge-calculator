@@ -5,10 +5,21 @@
 
 document.addEventListener('alpine:init', () => {
     Alpine.data('mergeCalculator', () => ({
-        // 1. Core Reactive States
+        // 1. Core Reactive States (q defaulted to 1)
         s: 1, // Start Level (s)
         t: 4, // Target Level (t)
-        q: 3, // Requested Quantity (q)
+        q: 1, // Requested Quantity (q) - Updated to 1
+
+        // Helper Methods for Stepper Buttons
+        decrement(key, min = 1) {
+            if (this[key] > min) {
+                this[key]--;
+            }
+        },
+
+        increment(key) {
+            this[key] = (parseInt(this[key]) || 0) + 1;
+        },
 
         // 2. Computed Level Jump (d = t - s)
         get d() {
@@ -17,27 +28,22 @@ document.addEventListener('alpine:init', () => {
 
         // 3. Real-time Input Validation Engine
         get error() {
-            // Null or empty check
             if (this.s === '' || this.t === '' || this.q === '' || this.s === null || this.t === null || this.q === null) {
                 return 'সবগুলো ইনপুট ফিল্ড পূরণ করা আবশ্যক।';
             }
-            // Non-integer check
             if (!Number.isInteger(this.s) || !Number.isInteger(this.t) || !Number.isInteger(this.q)) {
                 return 'ইনপুট সংখ্যাগুলো অবশ্যই পূর্ণসংখ্যা (Integer) হতে হবে।';
             }
-            // Minimum value bounds
             if (this.s < 1 || this.q < 1) {
                 return 'Start Level এবং Quantity অন্তত ১ হতে হবে।';
             }
-            // Target level strict inequality
             if (this.t <= this.s) {
                 return 'Target Level (t) অবশ্যই Start Level (s)-এর চেয়ে বড় হতে হবে।';
             }
-            // Level difference safeguard
             if (this.d > 15) {
                 return 'লেভেল জাম্প (t - s) সর্বোচ্চ ১৫ এর মধ্যে রাখতে হবে।';
             }
-            return null; // Valid state
+            return null;
         },
 
         // 4. Zero-Waste Formulas (5-to-2 Ratio)
