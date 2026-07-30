@@ -1,4 +1,4 @@
-# 🚀 Strict Zero-Waste Merge Calculator (`v1.1.0`)
+# 🚀 Strict Zero-Waste Merge Calculator (`v1.x`)
 
 A fast, lightweight, zero-dependency web application designed to calculate the exact required base items for 5-to-2 merge games without leaving leftover waste items at any tier.
 
