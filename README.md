@@ -1,32 +1,27 @@
-# 🚀 Strict Zero-Waste Merge Calculator (`v1.x`)
+# 🧮 Strict Zero-Waste Merge Calculator
 
-A fast, lightweight, zero-dependency web application designed to calculate the exact required base items for 5-to-2 merge games without leaving leftover waste items at any tier.
+A lightweight, high-performance static web application designed to calculate optimal zero-waste merge paths based on the **5-to-2 ratio** logic. Fully optimized for **GitHub Pages**.
 
-## 🛠 Tech Stack
+[![Live Demo](https://img.shields.io/badge/Live-Demo-sky?style=flat-square)](https://nitalukder.github.io/merge-calculator/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://opensource.org/licenses/MIT)
+[![Version](https://img.shields.io/badge/version-v1.4.0-emerald?style=flat-square)](https://github.com/nitalukder/merge-calculator/releases)
 
-* **UI Framework:** HTML5 + [Tailwind CSS v4 Browser CDN](https://tailwindcss.com)
-* **Reactivity Engine:** [Alpine.js v3](https://alpinejs.dev)
-* **Architecture:** Modular Separation of Concerns (Zero-Build Dynamic Static Site)
+---
 
-## 📐 Formulas Implemented
+## ✨ Features
+* **Zero-Waste Math Engine:** Strict 5-to-2 ratio calculations with automatic batch & remainder verification.
+* **Modular Architecture:** Clean ES6 module code structure (`config.js`, `calculator.js`, `app.js`).
+* **Interactive UI:** Stepper controls (`+` / `-`), real-time reactive clamping, and smooth validation warnings.
+* **Copy to Clipboard:** Instantly copy calculation summaries with a single click.
+* **Dark & Light Mode:** Seamless theme toggle with local storage persistence.
+* **Zero Build Overhead:** Pure static files (HTML, Tailwind CSS CDN, Alpine.js CDN) — ready to deploy instantly on GitHub Pages.
 
-Given:
-* **Start Level** ($s$)
-* **Target Level** ($t$)
-* **Requested Quantity** ($q$)
+---
 
-1. **Level Difference ($d$):**
-   $$d = t - s$$
+## 🚀 Local Development
+Simply clone the repository and open `index.html` in any modern web browser or use a local static server:
 
-2. **Batch Count ($b$):**
-   $$b = \lceil \frac{q}{2^d} \rceil$$
-
-3. **Auto-Target Quantity ($q_{auto}$):**
-   $$q_{auto} = b \cdot 2^d$$
-
-4. **Required Level $s$ Items ($N$):**
-   $$N = b \cdot 5^d$$
-
-## 📜 Version History
-
-See the [CHANGELOG.md](./CHANGELOG.md) file for a detailed history of changes and version releases.
+```bash
+git clone [https://github.com/nitalukder/merge-calculator.git](https://github.com/nitalukder/merge-calculator.git)
+cd merge-calculator
+# Open index.html directly or serve using Live Server
