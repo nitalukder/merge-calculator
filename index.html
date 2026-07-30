@@ -14,99 +14,145 @@
     <!-- Alpine.js CDN -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen flex items-center justify-center p-4 antialiased">
+<body class="bg-slate-950 text-slate-100 min-h-screen flex items-center justify-center p-4 sm:p-6 antialiased selection:bg-sky-500 selection:text-white">
 
-    <!-- Main Container -->
-    <main x-data="mergeCalculator" class="w-full max-w-lg bg-slate-900 border border-slate-800 rounded-2xl p-6 sm:p-8 shadow-2xl space-y-6">
+    <!-- Main Responsive Grid Container -->
+    <main x-data="mergeCalculator" class="w-full max-w-5xl bg-slate-900 border border-slate-800 rounded-2xl p-6 sm:p-8 shadow-2xl">
         
-        <!-- Header -->
-        <header class="text-center space-y-1">
-            <h1 class="text-2xl font-bold text-sky-400 tracking-tight">Merge Calculator</h1>
-            <p class="text-xs sm:text-sm text-slate-400">Strict Zero-Waste (5-to-2 Ratio) Logic</p>
-        </header>
-
-        <!-- Validation Alert -->
-        <div x-show="error" x-text="error" 
-             class="bg-red-500/10 border border-red-500/30 text-red-400 text-xs p-3.5 rounded-xl font-medium">
-        </div>
-
-        <!-- Inputs Section with Clear Borders & Backgrounds -->
-        <section class="space-y-4">
-            <div>
-                <label class="block text-xs font-medium text-slate-300 mb-1.5">Start Level (s)</label>
-                <input type="number" x-model.number="s" min="1" step="1" 
-                       class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-slate-100 font-mono focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent transition">
-            </div>
-
-            <div>
-                <label class="block text-xs font-medium text-slate-300 mb-1.5">Target Level (t)</label>
-                <input type="number" x-model.number="t" min="2" step="1" 
-                       class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-slate-100 font-mono focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent transition">
-            </div>
-
-            <div>
-                <label class="block text-xs font-medium text-slate-300 mb-1.5">Requested Quantity (q)</label>
-                <input type="number" x-model.number="q" min="1" step="1" 
-                       class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-slate-100 font-mono focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent transition">
-            </div>
-        </section>
-
-        <!-- Results Display Section -->
-        <section :class="error ? 'opacity-30 pointer-events-none select-none' : ''" 
-                 class="bg-slate-950/60 border border-slate-800/80 rounded-xl p-5 space-y-5 transition duration-300">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
             
-            <h2 class="text-xs font-semibold text-sky-400 uppercase tracking-wider border-b border-slate-800/80 pb-2.5">
-                Calculation Results
-            </h2>
+            <!-- LEFT COLUMN: Header & Inputs (5 Cols on Desktop) -->
+            <div class="lg:col-span-5 space-y-6">
+                
+                <!-- Header -->
+                <header class="space-y-1 text-center lg:text-left">
+                    <h1 class="text-2xl font-bold text-sky-400 tracking-tight">Merge Calculator</h1>
+                    <p class="text-xs sm:text-sm text-slate-400">Strict Zero-Waste (5-to-2 Ratio) Logic</p>
+                </header>
 
-            <!-- Summary Stat Cards Grid -->
-            <div class="grid grid-cols-2 gap-3 sm:gap-4">
-                <div class="bg-slate-900 border border-slate-800 p-3.5 rounded-xl">
-                    <span class="block text-[11px] text-slate-400 font-medium uppercase tracking-wider mb-1">Level Jump (d)</span>
-                    <span x-text="error ? '-' : d" class="text-xl font-bold text-emerald-400 font-mono"></span>
+                <!-- Validation Alert -->
+                <div x-show="error" 
+                     x-transition
+                     x-text="error" 
+                     class="bg-red-500/10 border border-red-500/30 text-red-400 text-xs p-3.5 rounded-xl font-medium">
                 </div>
-                <div class="bg-slate-900 border border-slate-800 p-3.5 rounded-xl">
-                    <span class="block text-[11px] text-slate-400 font-medium uppercase tracking-wider mb-1">Batches Needed (b)</span>
-                    <span x-text="error ? '-' : b.toLocaleString()" class="text-xl font-bold text-emerald-400 font-mono"></span>
-                </div>
-                <div class="bg-slate-900 border border-slate-800 p-3.5 rounded-xl">
-                    <span class="block text-[11px] text-slate-400 font-medium uppercase tracking-wider mb-1">Auto Target (q_auto)</span>
-                    <span x-text="error ? '-' : qAuto.toLocaleString()" class="text-xl font-bold text-emerald-400 font-mono"></span>
-                </div>
-                <div class="bg-slate-900 border border-slate-800 p-3.5 rounded-xl">
-                    <span class="block text-[11px] text-slate-400 font-medium uppercase tracking-wider mb-1">Start Items (N)</span>
-                    <span x-text="error ? '-' : N.toLocaleString()" class="text-xl font-bold text-emerald-400 font-mono"></span>
-                </div>
+
+                <!-- Input Controls with Stepper Buttons -->
+                <section class="space-y-4">
+                    <!-- Start Level (s) -->
+                    <div>
+                        <label class="block text-xs font-medium text-slate-300 mb-1.5">Start Level (s)</label>
+                        <div class="flex items-center gap-2">
+                            <button type="button" @click="decrement('s', 1)" 
+                                    class="w-10 h-10 flex items-center justify-center bg-slate-950 hover:bg-slate-800 active:scale-95 text-sky-400 font-bold rounded-xl border border-slate-800 transition text-lg select-none">
+                                -
+                            </button>
+                            <input type="number" x-model.number="s" min="1" step="1" 
+                                   class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-center text-slate-100 font-mono text-base focus:outline-none focus:ring-2 focus:ring-sky-500 transition [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none">
+                            <button type="button" @click="increment('s')" 
+                                    class="w-10 h-10 flex items-center justify-center bg-slate-950 hover:bg-slate-800 active:scale-95 text-sky-400 font-bold rounded-xl border border-slate-800 transition text-lg select-none">
+                                +
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Target Level (t) -->
+                    <div>
+                        <label class="block text-xs font-medium text-slate-300 mb-1.5">Target Level (t)</label>
+                        <div class="flex items-center gap-2">
+                            <button type="button" @click="decrement('t', 2)" 
+                                    class="w-10 h-10 flex items-center justify-center bg-slate-950 hover:bg-slate-800 active:scale-95 text-sky-400 font-bold rounded-xl border border-slate-800 transition text-lg select-none">
+                                -
+                            </button>
+                            <input type="number" x-model.number="t" min="2" step="1" 
+                                   class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-center text-slate-100 font-mono text-base focus:outline-none focus:ring-2 focus:ring-sky-500 transition [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none">
+                            <button type="button" @click="increment('t')" 
+                                    class="w-10 h-10 flex items-center justify-center bg-slate-950 hover:bg-slate-800 active:scale-95 text-sky-400 font-bold rounded-xl border border-slate-800 transition text-lg select-none">
+                                +
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Requested Quantity (q) -->
+                    <div>
+                        <label class="block text-xs font-medium text-slate-300 mb-1.5">Requested Quantity (q)</label>
+                        <div class="flex items-center gap-2">
+                            <button type="button" @click="decrement('q', 1)" 
+                                    class="w-10 h-10 flex items-center justify-center bg-slate-950 hover:bg-slate-800 active:scale-95 text-sky-400 font-bold rounded-xl border border-slate-800 transition text-lg select-none">
+                                -
+                            </button>
+                            <input type="number" x-model.number="q" min="1" step="1" 
+                                   class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-center text-slate-100 font-mono text-base focus:outline-none focus:ring-2 focus:ring-sky-500 transition [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none">
+                            <button type="button" @click="increment('q')" 
+                                    class="w-10 h-10 flex items-center justify-center bg-slate-950 hover:bg-slate-800 active:scale-95 text-sky-400 font-bold rounded-xl border border-slate-800 transition text-lg select-none">
+                                +
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
             </div>
 
-            <!-- Step Trace Table -->
-            <div class="space-y-2.5">
-                <h3 class="text-xs font-medium text-slate-300">Step-by-Step Merge Proof</h3>
-                <div class="overflow-x-auto rounded-lg border border-slate-800/60">
-                    <table class="w-full text-left text-xs">
-                        <thead>
-                            <tr class="bg-slate-900/80 border-b border-slate-800 text-slate-400">
-                                <th class="py-2.5 px-3 font-medium">Step</th>
-                                <th class="py-2.5 px-3 font-medium">Merged</th>
-                                <th class="py-2.5 px-3 font-medium">Produced</th>
-                                <th class="py-2.5 px-3 font-medium">Waste</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-slate-800/50 text-slate-200">
-                            <template x-for="st in steps" :key="st.lvl">
-                                <tr class="hover:bg-slate-900/50 transition duration-150">
-                                    <td class="py-2.5 px-3 font-mono text-sky-400 font-medium" x-text="`L${st.lvl} → L${st.nextLvl}`"></td>
-                                    <td class="py-2.5 px-3 font-mono" x-text="st.cur.toLocaleString()"></td>
-                                    <td class="py-2.5 px-3 font-mono" x-text="st.next.toLocaleString()"></td>
-                                    <td class="py-2.5 px-3 font-mono font-semibold text-emerald-400" x-text="st.waste"></td>
-                                </tr>
-                            </template>
-                        </tbody>
-                    </table>
-                </div>
+            <!-- RIGHT COLUMN: Results Display & Step Proof (7 Cols on Desktop) -->
+            <div class="lg:col-span-7">
+                <section :class="error ? 'opacity-30 pointer-events-none select-none' : ''" 
+                         class="bg-slate-950/60 border border-slate-800/80 rounded-2xl p-5 space-y-5 transition duration-300">
+                    
+                    <h2 class="text-xs font-semibold text-sky-400 uppercase tracking-wider border-b border-slate-800/80 pb-2.5">
+                        Calculation Results
+                    </h2>
+
+                    <!-- Summary Stat Cards Grid -->
+                    <div class="grid grid-cols-2 gap-3 sm:gap-4">
+                        <div class="bg-slate-900 border border-slate-800 p-3.5 rounded-xl">
+                            <span class="block text-[11px] text-slate-400 font-medium uppercase tracking-wider mb-1">Level Jump (d)</span>
+                            <span x-text="error ? '-' : d" class="text-xl font-bold text-emerald-400 font-mono"></span>
+                        </div>
+                        <div class="bg-slate-900 border border-slate-800 p-3.5 rounded-xl">
+                            <span class="block text-[11px] text-slate-400 font-medium uppercase tracking-wider mb-1">Batches Needed (b)</span>
+                            <span x-text="error ? '-' : b.toLocaleString()" class="text-xl font-bold text-emerald-400 font-mono"></span>
+                        </div>
+                        <div class="bg-slate-900 border border-slate-800 p-3.5 rounded-xl">
+                            <span class="block text-[11px] text-slate-400 font-medium uppercase tracking-wider mb-1">Auto Target (q_auto)</span>
+                            <span x-text="error ? '-' : qAuto.toLocaleString()" class="text-xl font-bold text-emerald-400 font-mono"></span>
+                        </div>
+                        <div class="bg-slate-900 border border-slate-800 p-3.5 rounded-xl">
+                            <span class="block text-[11px] text-slate-400 font-medium uppercase tracking-wider mb-1">Start Items (N)</span>
+                            <span x-text="error ? '-' : N.toLocaleString()" class="text-xl font-bold text-emerald-400 font-mono"></span>
+                        </div>
+                    </div>
+
+                    <!-- Step Trace Table -->
+                    <div class="space-y-2.5">
+                        <h3 class="text-xs font-medium text-slate-300">Step-by-Step Merge Proof</h3>
+                        <div class="overflow-x-auto rounded-lg border border-slate-800/60">
+                            <table class="w-full text-left text-xs">
+                                <thead>
+                                    <tr class="bg-slate-900/80 border-b border-slate-800 text-slate-400">
+                                        <th class="py-2.5 px-3 font-medium">Step</th>
+                                        <th class="py-2.5 px-3 font-medium">Merged</th>
+                                        <th class="py-2.5 px-3 font-medium">Produced</th>
+                                        <th class="py-2.5 px-3 font-medium">Waste</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-800/50 text-slate-200">
+                                    <template x-for="st in steps" :key="st.lvl">
+                                        <tr class="hover:bg-slate-900/50 transition duration-150">
+                                            <td class="py-2.5 px-3 font-mono text-sky-400 font-medium" x-text="`L${st.lvl} → L${st.nextLvl}`"></td>
+                                            <td class="py-2.5 px-3 font-mono" x-text="st.cur.toLocaleString()"></td>
+                                            <td class="py-2.5 px-3 font-mono" x-text="st.next.toLocaleString()"></td>
+                                            <td class="py-2.5 px-3 font-mono font-semibold text-emerald-400" x-text="st.waste"></td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </section>
             </div>
 
-        </section>
+        </div>
 
     </main>
 
