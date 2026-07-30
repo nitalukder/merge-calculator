@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Strict Zero-Waste Merge Calculator v1.2.0</title>
+    <title>Strict Zero-Waste Merge Calculator v1.3.1</title>
 
     <!-- Tailwind CSS v4 Browser CDN -->
     <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
@@ -32,7 +32,7 @@
                     <div class="space-y-1">
                         <h1 class="text-2xl font-bold text-sky-500 tracking-tight">Merge Calculator</h1>
                         <p :class="theme === 'dark' ? 'text-slate-400' : 'text-slate-500'" class="text-xs sm:text-sm">
-                            Strict Zero-Waste (5-to-2 Ratio) Logic • v1.2.0
+                            Strict Zero-Waste (5-to-2 Ratio) Logic • v1.3.1
                         </p>
                     </div>
 
@@ -48,13 +48,6 @@
                     </button>
                 </header>
 
-                <!-- Validation Alert -->
-                <div x-show="error" 
-                     x-transition
-                     x-text="error" 
-                     class="bg-red-500/10 border border-red-500/30 text-red-500 text-xs p-3.5 rounded-xl font-medium">
-                </div>
-
                 <!-- Input Controls with Stepper Buttons -->
                 <section class="space-y-4">
                     <!-- Start Level (s) -->
@@ -66,7 +59,7 @@
                                     class="w-10 h-10 flex items-center justify-center active:scale-95 disabled:opacity-30 disabled:cursor-not-allowed disabled:active:scale-100 font-bold rounded-xl border transition text-lg select-none">
                                 -
                             </button>
-                            <input type="number" x-model.number="s" min="1" step="1" inputmode="numeric" pattern="[0-9]*"
+                            <input type="number" x-model.number="s" @focus="touched = true" min="1" step="1" inputmode="numeric" pattern="[0-9]*"
                                    :class="theme === 'dark' ? 'bg-slate-950 border-slate-800 text-slate-100' : 'bg-slate-50/50 border-slate-300 text-slate-900'"
                                    class="w-full border rounded-xl px-3 py-2 text-center font-mono text-base focus:outline-none focus:ring-2 focus:ring-sky-500 transition [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none">
                             <button type="button" @click="incS()" aria-label="Increase start level"
@@ -86,7 +79,7 @@
                                     class="w-10 h-10 flex items-center justify-center active:scale-95 disabled:opacity-30 disabled:cursor-not-allowed disabled:active:scale-100 font-bold rounded-xl border transition text-lg select-none">
                                 -
                             </button>
-                            <input type="number" x-model.number="t" min="2" step="1" inputmode="numeric" pattern="[0-9]*"
+                            <input type="number" x-model.number="t" @focus="touched = true" min="2" step="1" inputmode="numeric" pattern="[0-9]*"
                                    :class="theme === 'dark' ? 'bg-slate-950 border-slate-800 text-slate-100' : 'bg-slate-50/50 border-slate-300 text-slate-900'"
                                    class="w-full border rounded-xl px-3 py-2 text-center font-mono text-base focus:outline-none focus:ring-2 focus:ring-sky-500 transition [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none">
                             <button type="button" @click="incT()" aria-label="Increase target level"
@@ -106,7 +99,7 @@
                                     class="w-10 h-10 flex items-center justify-center active:scale-95 disabled:opacity-30 disabled:cursor-not-allowed disabled:active:scale-100 font-bold rounded-xl border transition text-lg select-none">
                                 -
                             </button>
-                            <input type="number" x-model.number="q" min="1" max="1000000" step="1" inputmode="numeric" pattern="[0-9]*"
+                            <input type="number" x-model.number="q" @focus="touched = true" min="1" max="1000000" step="1" inputmode="numeric" pattern="[0-9]*"
                                    :class="theme === 'dark' ? 'bg-slate-950 border-slate-800 text-slate-100' : 'bg-slate-50/50 border-slate-300 text-slate-900'"
                                    class="w-full border rounded-xl px-3 py-2 text-center font-mono text-base focus:outline-none focus:ring-2 focus:ring-sky-500 transition [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none">
                             <button type="button" @click="incQ()" :disabled="q >= 1000000" aria-label="Increase requested quantity"
@@ -117,6 +110,19 @@
                         </div>
                     </div>
                 </section>
+
+                <!-- Validation Alert with Smooth Transition (Moved Below Input Fields) -->
+                <div x-show="error" 
+                     x-transition:enter="transition ease-out duration-200"
+                     x-transition:enter-start="opacity-0 -translate-y-1"
+                     x-transition:enter-end="opacity-100 translate-y-0"
+                     x-transition:leave="transition ease-in duration-150"
+                     x-transition:leave-start="opacity-100 translate-y-0"
+                     x-transition:leave-end="opacity-0 -translate-y-1"
+                     style="display: none;"
+                     x-text="error" 
+                     class="bg-red-500/10 border border-red-500/30 text-red-500 text-xs p-3.5 rounded-xl font-medium">
+                </div>
 
             </div>
 
