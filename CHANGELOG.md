@@ -6,6 +6,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ---
 
+## [1.4.0] - 2026-07-31
+
+### ✨ Added
+* **Modular Code Structure:** Split monolith JS logic into clean ES6 modules (`config.js`, `calculator.js`, `app.js`).
+* **Copy Summary Feature:** Added Clipboard API integration allowing users to copy calculation results instantly.
+* **SEO & Meta Optimization:** Added standard description and author meta tags for improved web reach.
+
+### ♻️ Improved
+* Cleaned up initialization pipeline and centralized threshold configuration limits.
+
+---
+
 ## [1.3.1] - 2026-07-31
 
 ### ✨ Improved
