@@ -5,31 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Strict Zero-Waste Merge Calculator</title>
 
-    <!-- Tailwind CSS v4.x Browser Script -->
+    <!-- Tailwind CSS v4 Browser CDN -->
     <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
-    
-    <!-- Tailwind v4 Customization & Layers -->
-    <style>
-        @import "tailwindcss";
-
-        @layer components {
-            .form-label {
-                @apply block text-xs font-medium text-slate-300 mb-1.5;
-            }
-            .form-input {
-                @apply w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-2.5 text-slate-100 placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent transition duration-200;
-            }
-            .stat-card {
-                @apply bg-slate-900 border border-slate-800/80 p-3.5 rounded-xl transition duration-200 hover:border-slate-700/80;
-            }
-            .stat-label {
-                @apply block text-[11px] text-slate-400 font-medium uppercase tracking-wider mb-1;
-            }
-            .stat-value {
-                @apply text-xl font-bold text-emerald-400 font-mono tracking-tight;
-            }
-        }
-    </style>
 
     <!-- Application Logic Script -->
     <script src="js/app.js"></script>
@@ -37,45 +14,44 @@
     <!-- Alpine.js CDN -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen flex items-center justify-center p-4 antialiased selection:bg-sky-500 selection:text-white">
+<body class="bg-slate-950 text-slate-100 min-h-screen flex items-center justify-center p-4 antialiased">
 
-    <!-- Alpine Component Root -->
-    <main x-data="mergeCalculator" class="w-full max-w-lg bg-slate-900/90 border border-slate-800 rounded-2xl p-6 sm:p-8 shadow-2xl space-y-6 backdrop-blur-sm">
+    <!-- Main Container -->
+    <main x-data="mergeCalculator" class="w-full max-w-lg bg-slate-900 border border-slate-800 rounded-2xl p-6 sm:p-8 shadow-2xl space-y-6">
         
-        <!-- Header Section -->
+        <!-- Header -->
         <header class="text-center space-y-1">
             <h1 class="text-2xl font-bold text-sky-400 tracking-tight">Merge Calculator</h1>
             <p class="text-xs sm:text-sm text-slate-400">Strict Zero-Waste (5-to-2 Ratio) Logic</p>
         </header>
 
-        <!-- Real-time Validation Alert -->
-        <div x-show="error" 
-             x-transition:enter="transition ease-out duration-200"
-             x-transition:enter-start="opacity-0 transform -translate-y-2"
-             x-transition:enter-end="opacity-100 transform translate-y-0"
-             x-text="error" 
-             class="bg-red-500/10 border border-red-500/30 text-red-400 text-xs p-3.5 rounded-xl font-medium flex items-center gap-2">
+        <!-- Validation Alert -->
+        <div x-show="error" x-text="error" 
+             class="bg-red-500/10 border border-red-500/30 text-red-400 text-xs p-3.5 rounded-xl font-medium">
         </div>
 
-        <!-- Input Fields -->
+        <!-- Inputs Section with Clear Borders & Backgrounds -->
         <section class="space-y-4">
             <div>
-                <label class="form-label">Start Level (s)</label>
-                <input type="number" x-model.number="s" min="1" step="1" placeholder="e.g. 1" class="form-input">
+                <label class="block text-xs font-medium text-slate-300 mb-1.5">Start Level (s)</label>
+                <input type="number" x-model.number="s" min="1" step="1" 
+                       class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-slate-100 font-mono focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent transition">
             </div>
 
             <div>
-                <label class="form-label">Target Level (t)</label>
-                <input type="number" x-model.number="t" min="2" step="1" placeholder="e.g. 4" class="form-input">
+                <label class="block text-xs font-medium text-slate-300 mb-1.5">Target Level (t)</label>
+                <input type="number" x-model.number="t" min="2" step="1" 
+                       class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-slate-100 font-mono focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent transition">
             </div>
 
             <div>
-                <label class="form-label">Requested Quantity (q)</label>
-                <input type="number" x-model.number="q" min="1" step="1" placeholder="e.g. 3" class="form-input">
+                <label class="block text-xs font-medium text-slate-300 mb-1.5">Requested Quantity (q)</label>
+                <input type="number" x-model.number="q" min="1" step="1" 
+                       class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-slate-100 font-mono focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent transition">
             </div>
         </section>
 
-        <!-- Results View -->
+        <!-- Results Display Section -->
         <section :class="error ? 'opacity-30 pointer-events-none select-none' : ''" 
                  class="bg-slate-950/60 border border-slate-800/80 rounded-xl p-5 space-y-5 transition duration-300">
             
@@ -83,23 +59,23 @@
                 Calculation Results
             </h2>
 
-            <!-- Summary Grid -->
+            <!-- Summary Stat Cards Grid -->
             <div class="grid grid-cols-2 gap-3 sm:gap-4">
-                <div class="stat-card">
-                    <span class="stat-label">Level Jump (d)</span>
-                    <span x-text="error ? '-' : d" class="stat-value"></span>
+                <div class="bg-slate-900 border border-slate-800 p-3.5 rounded-xl">
+                    <span class="block text-[11px] text-slate-400 font-medium uppercase tracking-wider mb-1">Level Jump (d)</span>
+                    <span x-text="error ? '-' : d" class="text-xl font-bold text-emerald-400 font-mono"></span>
                 </div>
-                <div class="stat-card">
-                    <span class="stat-label">Batches Needed (b)</span>
-                    <span x-text="error ? '-' : b.toLocaleString()" class="stat-value"></span>
+                <div class="bg-slate-900 border border-slate-800 p-3.5 rounded-xl">
+                    <span class="block text-[11px] text-slate-400 font-medium uppercase tracking-wider mb-1">Batches Needed (b)</span>
+                    <span x-text="error ? '-' : b.toLocaleString()" class="text-xl font-bold text-emerald-400 font-mono"></span>
                 </div>
-                <div class="stat-card">
-                    <span class="stat-label">Auto Target (q_auto)</span>
-                    <span x-text="error ? '-' : qAuto.toLocaleString()" class="stat-value"></span>
+                <div class="bg-slate-900 border border-slate-800 p-3.5 rounded-xl">
+                    <span class="block text-[11px] text-slate-400 font-medium uppercase tracking-wider mb-1">Auto Target (q_auto)</span>
+                    <span x-text="error ? '-' : qAuto.toLocaleString()" class="text-xl font-bold text-emerald-400 font-mono"></span>
                 </div>
-                <div class="stat-card">
-                    <span class="stat-label">Start Items (N)</span>
-                    <span x-text="error ? '-' : N.toLocaleString()" class="stat-value"></span>
+                <div class="bg-slate-900 border border-slate-800 p-3.5 rounded-xl">
+                    <span class="block text-[11px] text-slate-400 font-medium uppercase tracking-wider mb-1">Start Items (N)</span>
+                    <span x-text="error ? '-' : N.toLocaleString()" class="text-xl font-bold text-emerald-400 font-mono"></span>
                 </div>
             </div>
 
