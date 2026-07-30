@@ -1,6 +1,6 @@
 /**
  * Strict Zero-Waste Merge Calculator Engine
- * Version: v1.1.0
+ * Version: v1.2.0
  * Powered by Alpine.js
  */
 
@@ -10,6 +10,15 @@ document.addEventListener('alpine:init', () => {
         s: 1, // Start Level (Min: 1)
         t: 4, // Target Level (Min: 2)
         q: 1, // Requested Quantity (Min: 1, Max: 1,000,000)
+        
+        // Theme State (Defaulting to 'dark' or from localStorage)
+        theme: localStorage.getItem('theme') || 'dark',
+
+        // Toggle Theme Method
+        toggleTheme() {
+            this.theme = this.theme === 'dark' ? 'light' : 'dark';
+            localStorage.setItem('theme', this.theme);
+        },
 
         // 2. Lifecycle Init & Reactive Auto-Sync Watchers
         init() {
@@ -18,7 +27,6 @@ document.addEventListener('alpine:init', () => {
                 if (val === '' || val === null || isNaN(val)) return;
                 let numS = Math.floor(Number(val));
                 
-                // Clamp min bounds
                 if (numS < 1) {
                     this.s = 1;
                     numS = 1;
@@ -26,7 +34,6 @@ document.addEventListener('alpine:init', () => {
                     this.s = numS;
                 }
 
-                // Auto-push Target Level (t) if s >= t
                 if (numS >= this.t) {
                     this.t = numS + 1;
                 }
@@ -37,7 +44,6 @@ document.addEventListener('alpine:init', () => {
                 if (val === '' || val === null || isNaN(val)) return;
                 let numT = Math.floor(Number(val));
 
-                // Clamp min bounds
                 if (numT < 2) {
                     this.t = 2;
                     numT = 2;
@@ -45,7 +51,6 @@ document.addEventListener('alpine:init', () => {
                     this.t = numT;
                 }
 
-                // Auto-pull Start Level (s) if t <= s
                 if (numT <= this.s) {
                     this.s = Math.max(1, numT - 1);
                 }
@@ -56,7 +61,6 @@ document.addEventListener('alpine:init', () => {
                 if (val === '' || val === null || isNaN(val)) return;
                 let numQ = Math.floor(Number(val));
 
-                // Clamp bounds (1 <= q <= 1,000,000)
                 if (numQ < 1) {
                     this.q = 1;
                 } else if (numQ > 1000000) {
@@ -68,24 +72,12 @@ document.addEventListener('alpine:init', () => {
         },
 
         // 3. Explicit Stepper Action Methods
-        decS() {
-            if (this.s > 1) this.s--;
-        },
-        incS() {
-            this.s++;
-        },
-        decT() {
-            if (this.t > 2) this.t--;
-        },
-        incT() {
-            this.t++;
-        },
-        decQ() {
-            if (this.q > 1) this.q--;
-        },
-        incQ() {
-            this.q++;
-        },
+        decS() { if (this.s > 1) this.s--; },
+        incS() { this.s++; },
+        decT() { if (this.t > 2) this.t--; },
+        incT() { this.t++; },
+        decQ() { if (this.q > 1) this.q--; },
+        incQ() { this.q++; },
 
         // 4. Level Jump Calculation (d = t - s)
         get d() {
