@@ -1,6 +1,6 @@
 /**
  * Strict Zero-Waste Merge Calculator Engine
- * Version: v1.2.0
+ * Version: v1.3.1
  * Powered by Alpine.js
  */
 
@@ -11,7 +11,10 @@ document.addEventListener('alpine:init', () => {
         t: 4, // Target Level (Min: 2)
         q: 1, // Requested Quantity (Min: 1, Max: 1,000,000)
         
-        // Theme State (Defaulting to 'dark' or from localStorage)
+        // Touch state to prevent premature error flashing while typing
+        touched: false,
+
+        // Theme State
         theme: localStorage.getItem('theme') || 'dark',
 
         // Toggle Theme Method
@@ -24,6 +27,7 @@ document.addEventListener('alpine:init', () => {
         init() {
             // Watcher for Start Level (s)
             this.$watch('s', (val) => {
+                this.touched = true;
                 if (val === '' || val === null || isNaN(val)) return;
                 let numS = Math.floor(Number(val));
                 
@@ -41,6 +45,7 @@ document.addEventListener('alpine:init', () => {
 
             // Watcher for Target Level (t)
             this.$watch('t', (val) => {
+                this.touched = true;
                 if (val === '' || val === null || isNaN(val)) return;
                 let numT = Math.floor(Number(val));
 
@@ -58,6 +63,7 @@ document.addEventListener('alpine:init', () => {
 
             // Watcher for Requested Quantity (q)
             this.$watch('q', (val) => {
+                this.touched = true;
                 if (val === '' || val === null || isNaN(val)) return;
                 let numQ = Math.floor(Number(val));
 
@@ -72,12 +78,12 @@ document.addEventListener('alpine:init', () => {
         },
 
         // 3. Explicit Stepper Action Methods
-        decS() { if (this.s > 1) this.s--; },
-        incS() { this.s++; },
-        decT() { if (this.t > 2) this.t--; },
-        incT() { this.t++; },
-        decQ() { if (this.q > 1) this.q--; },
-        incQ() { this.q++; },
+        decS() { this.touched = true; if (this.s > 1) this.s--; },
+        incS() { this.touched = true; this.s++; },
+        decT() { this.touched = true; if (this.t > 2) this.t--; },
+        incT() { this.touched = true; this.t++; },
+        decQ() { this.touched = true; if (this.q > 1) this.q--; },
+        incQ() { this.touched = true; this.q++; },
 
         // 4. Level Jump Calculation (d = t - s)
         get d() {
@@ -86,6 +92,8 @@ document.addEventListener('alpine:init', () => {
 
         // 5. Strict Real-time Validation Engine
         get error() {
+            if (!this.touched) return null;
+
             if (this.s === '' || this.t === '' || this.q === '' || this.s === null || this.t === null || this.q === null) {
                 return 'সবগুলো ইনপুট ফিল্ড পূরণ করা আবশ্যক।';
             }
